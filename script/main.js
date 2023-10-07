@@ -1,9 +1,11 @@
 let characterPos = 0;
+let characterVerticalPos = 0;
 const characterSpeed = 8;
-let isjump = false;
+const characterVerticalSpeed = 8;
 
 const gameContainer = document.querySelector(".game-container");
 const gameContainerWidth = gameContainer.offsetWidth;
+const gameContainerHeight = gameContainer.offsetHeight;
 
 const character = document.querySelector(".character");
 
@@ -16,9 +18,10 @@ window.addEventListener("keydown", (e) => {
             characterPos -= characterSpeed;
             break;
         case "ArrowUp":
-            if(isjump === false){
-                jump();
-            }
+            characterVerticalPos += characterVerticalSpeed;
+            break;
+        case "ArrowDown":
+            characterVerticalPos -= characterVerticalSpeed;
             break;
     }
 
@@ -28,19 +31,12 @@ window.addEventListener("keydown", (e) => {
         characterPos = gameContainerWidth - character.offsetWidth;
     }
 
-    character.style.left = characterPos + "px";
-});
-
-function jump(){
-    if(!isjump){
-        isjump = true;
-        console.log(character.offsetHeight)
-        let jumpHeight = 100;
-        let jumpDuration = 300;
-        character.style.transform = `translateY(-${jumpHeight}px)`;
-        setTimeout(()=>{       
-            character.style.transform = `translateY(0)`;
-            isjump = false;
-        }, jumpDuration);
+    if (characterVerticalPos < 0) {
+        characterVerticalPos = 0;
+    } else if (characterVerticalPos > gameContainerHeight - character.offsetHeight) {
+        characterVerticalPos = gameContainerHeight - character.offsetHeight;
     }
-}
+
+    character.style.left = characterPos + "px";
+    character.style.bottom = characterVerticalPos + "px";
+});
