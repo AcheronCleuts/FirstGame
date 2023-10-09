@@ -40,3 +40,5 @@ window.addEventListener("keydown", (e) => {
     character.style.left = characterPos + "px";
     character.style.bottom = characterVerticalPos + "px";
 });
+
+console.log("commit");
